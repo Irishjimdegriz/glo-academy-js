@@ -2,7 +2,7 @@ let money = 3000;
 let income = 'супергерой на полставки';
 let addExpenses = 'Электричество, интернеТ, праЧЕЧная';
 let deposit = true;
-let mission = '10000';
+let mission = 10000;
 let period = 5;
 
 console.log(typeof money);
