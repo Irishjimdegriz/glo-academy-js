@@ -1,20 +1,30 @@
 'use strict';
 
+let isNumber = function(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 let income = 'супергерой на полставки',
 mission = 10000,
 period = 5,
-money = +prompt('Ваш месячный доход?'),
+money,
 addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую'),
 deposit = confirm('Есть ли у вас депозит в банке?'),
-expenses1 = prompt('Введите обязательную статью расходов?'),
-amount1 = +prompt('Во сколько это обойдется?'),
-expenses2 = prompt('Введите обязательную статью расходов?'),
-amount2 = +prompt('Во сколько это обойдется?');
+expenses = [],
+targetMonth;
 
 let showTypeOf = function(data) {
   console.log(typeof data);
 }
 
+let start = function() {
+  do {
+    money = +prompt('Ваш месячный доход?');
+  } 
+  while(!isNumber(money))
+}
+
+start();
 
 showTypeOf(money);
 showTypeOf(income);
@@ -23,13 +33,29 @@ showTypeOf(deposit);
 console.log(addExpenses.toLowerCase().split(', '));
 
 const getExpensesMonth = function() {
-  return amount1 + amount2;
+  let sum = 0;
+  let amount = 0;
+
+  for (let i = 0; i < 2; i++) {
+    expenses[i] = prompt('Введите обязательную статью расходов?');
+
+    do {
+      amount = +prompt('Во сколько это обойдется?');
+    } while (!isNumber(amount));
+
+    sum += amount;
+  }
+
+  console.log(expenses);
+  return sum;
 }
 
-console.log('Расходы за месяц: ' + getExpensesMonth());
+let expensesAmount = getExpensesMonth();
+
+console.log('Расходы за месяц: ' + expensesAmount);
 
 const getAccumulatedMonth = function() {
-  return money - getExpensesMonth();
+  return money - expensesAmount;
 }
 
 let accumulatedMonth = getAccumulatedMonth();
@@ -38,7 +64,14 @@ const getTargetMonth = function(accumulated) {
   return Math.ceil(mission / accumulated);
 }
 
-console.log("Цель будет достигнута через " + Math.ceil(mission / getTargetMonth(accumulatedMonth)) + " месяцев");
+targetMonth = getTargetMonth(accumulatedMonth);
+
+if (targetMonth < 0) {
+  console.log('Цель не будет достигнута');
+}
+else {
+  console.log("Цель будет достигнута через " + Math.ceil(mission / targetMonth) + " месяцев");
+}
 
 let budgetDay = accumulatedMonth / 30;
 console.log(Math.floor(budgetDay));
