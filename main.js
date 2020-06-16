@@ -1,5 +1,21 @@
 'use strict';
 
+let calculateButton = document.getElementById('#start'),
+    incomeAddButton = document.getElementsByTagName('button')[0],
+    expensesAddButton = document.getElementsByTagName('button')[1],
+    depositCheckbox = document.querySelector('#deposit-check'),
+    additionalIncomeItems = document.querySelectorAll('.additional_income-item'),
+    valueItems = document.querySelectorAll('[class$="-value"]'),
+    salaryAmountInput = document.querySelector('.salary-amount'),
+    incomeTitleInput = document.querySelector('.income-title'),
+    incomeAmountInput = document.querySelector('.income-amount'),
+    expensesTitleInput = document.querySelector('.expenses-title'),
+    expensesAmountInput = document.querySelector('.expenses-amount'),
+    additionalExpensesTitleInput = document.querySelector('.additional_expenses-title'),
+    additionalExpensesAmountInput = document.querySelector('.additional_expenses-amount'),
+    targetAmountInput = document.querySelector('.target-amount'),
+    periodInput = document.querySelector('.period-select');
+
 let isNumber = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 
 let isString = (objectToCheck) => {
