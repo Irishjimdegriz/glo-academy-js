@@ -90,6 +90,29 @@ let appData = {
   },
   addExpensesBlock: () => {
     let newExpensesItem = expensesItems[0].cloneNode(true);
+    let title = newExpensesItem.querySelector('.expenses-title');
+    let amount = newExpensesItem.querySelector('.expenses-amount');
+
+    title.value = '';
+    title.addEventListener('keypress', (event) => {
+      let key = event.key;
+      const regex = new RegExp('[а-яА-Я,.!?\\-]');
+      if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
+      }
+    });
+
+    amount.value = '';
+    amount.addEventListener('keypress', (event) => {
+      let key = event.key;
+      const regex = new RegExp('[0-9]');
+      if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
+      }
+    });
+
     expensesItems[0].parentNode.insertBefore(newExpensesItem, expensesAddButton);
 
     expensesItems = document.querySelectorAll('.expenses-items');
@@ -129,6 +152,33 @@ let appData = {
   },
   addIncomeBlock: () => {
     let newIncomeItem = incomeItems[0].cloneNode(true);
+
+    let title = newIncomeItem.querySelector('.income-title');
+    let amount = newIncomeItem.querySelector('.income-amount');
+
+    title.value = '';
+    title.addEventListener('keypress', (event) => {
+      let key = event.key;
+      const regex = new RegExp('[а-яА-Я,.!?\\-]');
+      if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
+      }
+    });
+
+    amount.value = '';
+    amount.addEventListener('keypress', (event) => {
+      let key = event.key;
+      const regex = new RegExp('[0-9]');
+      if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
+      }
+    });
+
+
+    // newIncomeItem.querySelector('.income-title').value = '';
+    // newIncomeItem.querySelector('.income-amount').value = '';
     incomeItems[0].parentNode.insertBefore(newIncomeItem, incomeAddButton);
 
     incomeItems = document.querySelectorAll('.income-items');
@@ -195,32 +245,29 @@ salaryAmountInput.addEventListener('input', () => {
   }
 
 });
-//console.log('Расходы за месяц: ' + appData.expensesMonth);
 
-// let targetMonth = appData.getTargetMonth(appData.budgetMonth);
+let totalInputs = document.querySelectorAll('[placeholder="Сумма"]');
+let nameInputs = document.querySelectorAll('[placeholder="Наименование"]');
 
-// if (targetMonth < 0) {
-//   console.log('Цель не будет достигнута');
-// }
-// else {
-//   console.log("Цель будет достигнута через " + targetMonth + " месяцев");
-// }
+totalInputs.forEach((item) => {
+  item.addEventListener('keypress', (event) => {
+    let key = event.key;
+    const regex = new RegExp('[0-9]');
+    if (!regex.test(key)) {
+      event.preventDefault();
+      return false;
+    }
+});
+});
 
-// console.log(appData.getStatusIncome());
+nameInputs.forEach((item) => {
+  item.addEventListener('keypress', (event) => {
+    let key = event.key;
+    const regex = new RegExp('[а-яА-Я,.!?\\-]');
+    if (!regex.test(key)) {
+      event.preventDefault();
+      return false;
+    }
+});
+});
 
-// console.log('Программа включает в себя данные:');
-
-// for (let item in appData) {
-//   console.log("Свойство: " + item + ", его значение - " + appData[item]);
-// }
-
-// let arrayResult = "";
-
-// for (let item of appData.addExpenses) {
-//   item = item.toLowerCase();
-//   arrayResult += item.charAt(0).toUpperCase() + item.slice(1) + ', ';
-// }
-
-// arrayResult = arrayResult.slice(0, -2);
-
-//console.log(arrayResult);
