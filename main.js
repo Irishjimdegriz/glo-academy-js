@@ -8,7 +8,6 @@ let calculateButton = document.getElementById('start'),
     valueItems = document.querySelectorAll('[class$="-value"]'),
     salaryAmountInput = document.querySelector('.salary-amount'),
     incomeTitleInput = document.querySelector('.income-title'),
-    //incomeAmountInput = document.querySelector('.income-amount'),
     expensesTitleInput = document.querySelector('.expenses-title'),
     expensesItems = document.querySelectorAll('.expenses-items'),
     incomeItems = document.querySelectorAll('.income-items'),
@@ -16,7 +15,8 @@ let calculateButton = document.getElementById('start'),
     additionalExpensesAmountInput = document.querySelector('.additional_expenses-amount'),
     additionalExpensesItem = document.querySelector('.additional_expenses-item'),
     targetAmountInput = document.querySelector('.target-amount'),
-    periodInput = document.querySelector('.period-select');
+    periodInput = document.querySelector('.period-select'),
+    periodAmount = document.querySelector('.period-amount');
 
 let isNumber = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 
@@ -24,6 +24,8 @@ let isString = (objectToCheck) => {
   const regex = new RegExp('[a-zA-Zа-яА-Я]+');
   return regex.test(objectToCheck);
 }
+
+calculateButton.disabled = true;
 
 let appData = {
   income: {},
@@ -34,8 +36,6 @@ let appData = {
   percentDeposit: 0,
   moneyDeposit: 0,
   incomeMonth: 0,
-  //mission: 10000,
-  //period: 5,
   budget: 0,
   budgetDay: 0,
   budgetMonth: 0,
@@ -46,10 +46,10 @@ let appData = {
     // } 
     // while(!isNumber(money));
 
-    if (salaryAmountInput.value === '') {
-      alert('Ошибка, поле "Месячный доход" должно быть заполнено!');
-      return;    
-    }
+    // if (salaryAmountInput.value === '') {
+    //   alert('Ошибка, поле "Месячный доход" должно быть заполнено!');
+    //   return;    
+    // }
 
     appData.budget = +salaryAmountInput.value;
     //console.log('salaryAmountInput.value: ' + salaryAmountInput.value);
@@ -65,35 +65,28 @@ let appData = {
   },
   showResult: () => {
     valueItems[0].value = appData.budgetMonth;
-    valueItems[1].value = appData.budgetDay;
+    valueItems[1].value = Math.floor(appData.budgetDay);
     valueItems[2].value = appData.expensesMonth;
     valueItems[4].value = appData.addExpenses.join(', ');
     valueItems[3].value = appData.addIncome.join(', ');
     valueItems[6].value = Math.ceil(appData.getTargetMonth());
     valueItems[5].value = appData.calcSavedMoney();
+
+    periodInput.addEventListener('input', () => {
+      valueItems[5].value = appData.calcSavedMoney();
+    })
   },
   getIncome: () => {
-    if (confirm('Есть ли у вас дополнительный источник заработка?')) {
+    incomeItems.forEach((item) => {
+      //console.log(item);
 
-      let itemIncome;
+      let itemIncome = item.querySelector('.income-title').value;
+      let cashIncome = item.querySelector('.income-amount').value;
 
-      do {
-        itemIncome = prompt('Какой у вас дополнительный заработок', "Таксую");
-      } while (!isString(itemIncome));
-
-      let cashIncome;
-      do {
-        cashIncome = prompt('Сколько в месяц вы на этом зарабатываете?', "10000");
-      } while (!isNumber(cashIncome));
-
-      // let cashIncome = prompt('Сколько в месяц вы на этом зарабатываете?', "10000");
-
-      appData.income[itemIncome] = cashIncome;
-
-      for (let key in appData.income) {
-        appData.incomeMonth += +appData.income[key];
+      if (itemIncome !== '' && cashIncome !== '') {
+        appData.expenses[itemIncome] = cashIncome;
       }
-    }
+    });
   },
   addExpensesBlock: () => {
     let newExpensesItem = expensesItems[0].cloneNode(true);
@@ -191,7 +184,17 @@ let appData = {
 calculateButton.addEventListener('click', appData.start);
 expensesAddButton.addEventListener('click', appData.addExpensesBlock);
 incomeAddButton.addEventListener('click', appData.addIncomeBlock);
+periodInput.addEventListener('input', () => {
+  periodAmount.textContent = periodInput.value;
+})
+salaryAmountInput.addEventListener('input', () => {
+  if (salaryAmountInput.value === '') {
+    calculateButton.disabled = true;
+  } else {
+    calculateButton.disabled = false;
+  }
 
+});
 //console.log('Расходы за месяц: ' + appData.expensesMonth);
 
 // let targetMonth = appData.getTargetMonth(appData.budgetMonth);
