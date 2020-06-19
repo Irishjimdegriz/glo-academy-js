@@ -159,7 +159,7 @@ let appData = {
     title.value = '';
     title.addEventListener('keypress', (event) => {
       let key = event.key;
-      const regex = new RegExp('[а-яА-Я,.!?\\-]');
+      const regex = new RegExp('[а-яА-Я,.!?\\- ]');
       if (!regex.test(key)) {
         event.preventDefault();
         return false;
@@ -263,7 +263,7 @@ totalInputs.forEach((item) => {
 nameInputs.forEach((item) => {
   item.addEventListener('keypress', (event) => {
     let key = event.key;
-    const regex = new RegExp('[а-яА-Я,.!?\\-]');
+    const regex = new RegExp('[а-яА-Я,.!?\\- ]');
     if (!regex.test(key)) {
       event.preventDefault();
       return false;
