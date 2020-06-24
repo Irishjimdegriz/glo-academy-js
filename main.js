@@ -291,6 +291,8 @@ cancelButton.addEventListener('click', () => {
   periodAmount.textContent = periodInput.value;
   depositCheckbox.checked = false;
   calculatePressed = false;
+  expensesAddButton.style.display = 'block';
+  incomeAddButton.style.display = 'block';
 });
 
 periodInput.addEventListener('input', () => {
