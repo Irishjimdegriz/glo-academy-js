@@ -19,7 +19,8 @@ let calculateButton = document.getElementById('start'),
     periodAmount = document.querySelector('.period-amount'),
     cancelButton = document.querySelector('#cancel'),
     textInputs = document.querySelectorAll('input[type=text]'),
-    resultItems = document.querySelectorAll('.result-total');
+    resultItems = document.querySelectorAll('.result-total'),
+    calculatePressed = false;
 
 let isNumber = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 
@@ -73,6 +74,7 @@ let appData = {
     });
   },
   showResult: function() {
+    calculatePressed = true;
     valueItems[0].value = this.budgetMonth;
     valueItems[1].value = Math.floor(this.budgetDay);
     valueItems[2].value = this.expensesMonth;
@@ -122,6 +124,11 @@ let appData = {
         return false;
       }
     });
+
+    if (calculatePressed === true) {
+      title.disabled = true;
+      amount.disabled = true;
+    }
 
     expensesItems[0].parentNode.insertBefore(newExpensesItem, expensesAddButton);
 
@@ -188,7 +195,10 @@ let appData = {
       }
     });
 
-
+    if (calculatePressed === true) {
+      title.disabled = true;
+      amount.disabled = true;
+    }
     // newIncomeItem.querySelector('.income-title').value = '';
     // newIncomeItem.querySelector('.income-amount').value = '';
     incomeItems[0].parentNode.insertBefore(newIncomeItem, incomeAddButton);
@@ -250,17 +260,37 @@ incomeAddButton.addEventListener('click', appData.addIncomeBlock);
 cancelButton.addEventListener('click', () => {
   calculateButton.style.display = 'block';
   cancelButton.style.display = 'none';
+
   textInputs.forEach((item) => {
     item.disabled = false;
     item.value = '';
   });
+
   resultItems.forEach((item) => {
     item.disabled = true;
     item.value = '';
   });
+
+  for (let index in expensesItems) {
+    if (index > 0) {
+      expensesItems[index].remove();
+    }
+  }
+
+  expensesItems = document.querySelectorAll('.expenses-items');
+
+  for (let index in incomeItems) {
+    if (index > 0) {
+      incomeItems[index].remove();
+    }
+  }
+
+  incomeItems = document.querySelectorAll('.income-items');
+
   periodInput.value = 1;
   periodAmount.textContent = periodInput.value;
   depositCheckbox.checked = false;
+  calculatePressed = false;
 });
 
 periodInput.addEventListener('input', () => {
