@@ -85,6 +85,11 @@ class AppData {
 
   start() {
     this.budget = +salaryAmountInput.value;
+
+    if (isNaN(depositPercent.value) || +depositPercent.value<0 || depositPercent.value > 100) {
+      alert('Введите корректное значение в поле проценты');
+      return;
+    }
   
     this.getIncExp();
     this.getExpensesMonth();
@@ -367,18 +372,18 @@ class AppData {
       }
     });
 
-    depositPercent.addEventListener('keypress', (event) => {
-      let key = event.key;
-      const regex = new RegExp('[0-9]');
-      if (!regex.test(key) || +depositPercent.value < 0 || +depositPercent.value > 100) {
-        //event.preventDefault();
-        alert ("Введите корректное значение в поле проценты");
-        calculateButton.disabled = true;
-        return false;
-      } else {
-        calculateButton.disabled = false;
-      }
-    });
+    // depositPercent.addEventListener('keypress', (event) => {
+    //   let key = event.key;
+    //   const regex = new RegExp('[0-9]');
+    //   if (!regex.test(key) || +depositPercent.value < 0 || +depositPercent.value > 100) {
+    //     //event.preventDefault();
+    //     alert ("Введите корректное значение в поле проценты");
+    //     calculateButton.disabled = true;
+    //     return false;
+    //   } else {
+    //     calculateButton.disabled = false;
+    //   }
+    // });
 
     calculateButton.addEventListener('click', this.start.bind(this));
     incomeAddButton.addEventListener('click', this.addIncExpBlock.bind(null, 0));
