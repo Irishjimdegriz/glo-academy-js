@@ -98,7 +98,9 @@ window.addEventListener('DOMContentLoaded', () =>{
   const links = document.querySelectorAll('[href^="#"]');
  
   for (const link of links) {
-    link.addEventListener("click", clickHandler);
+    if (!link.classList.contains('close-btn')) {
+      link.addEventListener("click", clickHandler);
+    }
   }
   
   function clickHandler(e) {
