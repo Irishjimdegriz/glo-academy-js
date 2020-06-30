@@ -57,19 +57,58 @@ window.addEventListener('DOMContentLoaded', () =>{
 
   const togglePopup = () => {
     const popup = document.querySelector('.popup'),
+          popupContent = document.querySelector('.popup-content'),
           popupBtns = document.querySelectorAll('.popup-btn'),
           popupClose = document.querySelector('.popup-close');
 
+    let popupCount = -20,
+        popupAnimationFrame;
+
+    const animatePopup = () => {      
+      popupContent.style.left = `${popupCount}%`;
+      popupCount++;
+      if (popupCount <= 38) {
+        popupAnimationFrame = requestAnimationFrame(animatePopup);
+      }
+    };
+
     popupBtns.forEach((item) => {
       item.addEventListener('click', () => {
-        popup.classList.display = 'block';
+        if (document.documentElement.clientWidth >= 768) {
+          popupCount = -20;
+          popupContent.style.left = `${popupCount}%`;   
+              
+          popupAnimationFrame = requestAnimationFrame(animatePopup);
+        }
+
+        popup.style.display = 'block';   
       });
     });
 
     popupClose.addEventListener('click', () => {
-      popup.classList.display = 'none';
+      popup.style.display = 'none';
+      window.cancelAnimationFrame(popupAnimationFrame);
     });
   };
 
   togglePopup();
+
+  // Smooth scrolling
+
+  const links = document.querySelectorAll('[href^="#"]');
+ 
+  for (const link of links) {
+    link.addEventListener("click", clickHandler);
+  }
+  
+  function clickHandler(e) {
+    e.preventDefault();
+    const href = this.getAttribute("href");
+    const offsetTop = document.querySelector(href).offsetTop;
+  
+    scrollTo({
+      top: offsetTop,
+      behavior: "smooth"
+    });
+  }
 })
