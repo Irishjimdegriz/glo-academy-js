@@ -32,7 +32,7 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     };
 
-  countTimer('01 July 2020');
+  countTimer('01 August 2020');
 
   //Меню
   const toggleMenu = () => {
@@ -278,4 +278,44 @@ window.addEventListener('DOMContentLoaded', () =>{
   };
 
   slider();
+
+  //photo change
+  const changePhotos = () => {
+    const teamBlock = document.getElementById('command'),
+    updateLogo = (event) => {
+      let target = event.target,
+      oldLogo;
+
+      if (target.matches('.command__photo')) {
+        oldLogo = target.src;
+        target.src = target.dataset.img;
+        target.dataset.img = oldLogo;
+      }
+    };
+
+    teamBlock.addEventListener('mouseover', (event) => {
+      updateLogo(event);  
+    });
+
+    teamBlock.addEventListener('mouseout', (event) => {
+      updateLogo(event);  
+    });
+  };
+
+  changePhotos();
+
+  //validation
+  const addValidators = () => {
+    const calcBlock = document.querySelector('.calc-block');
+
+    calcBlock.addEventListener('input', (event) => {
+      let target = event.target;
+
+      if (target.matches('.calc-item')) {
+        target.value = target.value.replace(/\D/, '');
+      }
+    });
+  };
+
+  addValidators();
 })
