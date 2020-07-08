@@ -365,7 +365,7 @@ window.addEventListener('DOMContentLoaded', () =>{
           } else {
             count++;
           }
-        }, 6);
+        }, 2);
 
       };
 
