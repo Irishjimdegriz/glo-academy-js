@@ -311,7 +311,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     calcBlock.addEventListener('input', (event) => {
       let target = event.target;
 
-      if (target.matches('.calc-item')) {
+      if (target.matches('.calc-item') && !target.matches('.calc-type')) {
         target.value = target.value.replace(/\D/, '');
       }
     });
