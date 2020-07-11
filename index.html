@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Услуги по 3D моделированию</title>
 	<link rel="stylesheet" href="./css/bootstrap.min.css">
+	<link rel="stylesheet" href="./css/spinkit.min.css">
 	<link rel="stylesheet" href="./css/style.min.css">
 	<link rel="apple-touch-icon" sizes="180x180" href="./images/favicon/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="./images/favicon/favicon-32x32.png">
@@ -413,51 +414,5 @@
 	</div>
 </div>
 <script src='script/script.js'></script>
-<script src='plugins/validators/validator.js'></script>
-<script>
-    const valid1 = new Validator({
-    selector: "#form1",
-    pattern: {
-      name: /^[а-я]+$/gi,
-    },
-    method: {
-      'form1-name': [['notEmpty'], ['pattern', 'name']],
-      'form1-phone': [['notEmpty'], ['pattern', 'phone']],
-      'form1-email': [['notEmpty'], ['pattern', 'email']]
-    }
-  });
-
-  valid1.init();
-
-  const valid2 = new Validator({
-    selector: "#form2",
-    pattern: {
-      name: /^[а-я]+$/gi,
-      message: /^[а-я]+$/gi,
-    },
-    method: {
-      'form2-name': [['notEmpty'], ['pattern', 'name']],
-      'form2-phone': [['notEmpty'], ['pattern', 'phone']],
-      'form2-message': [['notEmpty'], ['pattern', 'message']],
-      'form2-email': [['notEmpty'], ['pattern', 'email']]
-    }
-  });
-
-  valid2.init();
-
-  const valid3 = new Validator({
-    selector: "#form3",
-    pattern: {
-      name: /^[а-я]+$/gi,
-    },
-    method: {
-      'form3-name': [['notEmpty'], ['pattern', 'name']],
-      'form3-phone': [['notEmpty'], ['pattern', 'phone']],
-      'form3-email': [['notEmpty'], ['pattern', 'email']]
-    }
-  });
-
-  valid3.init();
-</script>
 </body>
 </html>

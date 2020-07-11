@@ -315,6 +315,18 @@ window.addEventListener('DOMContentLoaded', () =>{
         target.value = target.value.replace(/\D/, '');
       }
     });
+
+    const forms = document.querySelectorAll('form');
+
+    forms.forEach(item => item.addEventListener('input', (event) => {
+      const target = event.target;
+
+      if (target.matches('[name="user_name"]') || target.matches('[name="user_message"]')) {
+        target.value = target.value.replace(/[^а-я ]/ig, '');
+      } else if (target.matches('[name="user_phone"]')) {
+        target.value = target.value.replace(/^[^+\d]*(\+|\d)|\D$/ig, '$1');
+      }
+    }));
   };
 
   addValidators();
@@ -377,4 +389,82 @@ window.addEventListener('DOMContentLoaded', () =>{
   };
 
   calc(100);
+
+  //send-ajax-form
+
+  const sendForm = (selector) => {
+    const errorMessage = 'Что-то пошло не так',
+          //loadMessage = 'Загрузка...',
+          successMessage = 'Заявка была отправлена';
+
+    const form = document.getElementById(selector);
+
+    const statusMessage = document.createElement('div');
+    statusMessage.style.cssText = 'font-size: 2rem;';
+    //statusMessage.textContent = 'Тут будет сообщение';
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      
+      form.appendChild(statusMessage);
+      statusMessage.classList.add('sk-pulse');
+      statusMessage.style.cssText = 'margin: auto';
+      //statusMessage.textContent = loadMessage;
+
+      const formData = new FormData(form);
+      let body = {};
+
+      for (let value of formData.entries()) {
+        body[value[0]] = value[1];
+      }
+
+      postData(body, () => {
+        clearInputs(form);
+        statusMessage.classList.remove('sk-pulse');
+        statusMessage.textContent = successMessage;
+        statusMessage.style.cssText = '';
+      }, (error) => {
+        clearInputs(form);
+        console.log(error);
+        statusMessage.classList.remove('sk-pulse');
+        statusMessage.textContent = errorMessage;
+        statusMessage.style.cssText = '';
+      });
+    });
+
+    const clearInputs = (form) => {
+      const inputs = form.querySelectorAll('input');
+
+      inputs.forEach(item => item.value = '');
+    };
+
+    const postData = (body, outputData, errorData) => {
+      const request = new XMLHttpRequest();
+
+      request.addEventListener('readystatechange', () => {
+
+        if (request.readyState !== 4) {
+          return;
+        }
+
+        if (request.status === 200) {
+          outputData();
+          
+        } else {
+          errorData(request.Status);
+
+        }
+      });
+
+      request.open('POST', './server.php');
+      request.setRequestHeader('Content-type', 'application/json');
+
+      request.send(JSON.stringify(body));
+    };
+
+  };
+
+  sendForm('form1');
+  sendForm('form2');
+  sendForm('form3');
 })
