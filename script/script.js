@@ -417,15 +417,27 @@ window.addEventListener('DOMContentLoaded', () =>{
         body[value[0]] = value[1];
       }
 
-      postData(body)
-      .then(() => {  
+      fetch('./server.php', {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(body)
+      }).then((response) => {
+
+        if (response.status !== 200) {
+          throw new Error(`Что-то пошло не так, код ошибки - ${response.status}`);
+        }
+
         statusMessage.textContent = successMessage;
+        updatePage();
       })
       .catch((error) => {
         console.log(error);
         statusMessage.textContent = errorMessage;
+        updatePage();
       })
-      .finally(updatePage);
     });
 
     const updatePage = () => {
@@ -433,6 +445,10 @@ window.addEventListener('DOMContentLoaded', () =>{
       statusMessage.classList.remove('sk-pulse');
       
       statusMessage.style.cssText = '';
+
+      setTimeout(() => {
+        statusMessage.textContent = '';
+      }, 5000);
     };
 
     const clearInputs = (form) => {
