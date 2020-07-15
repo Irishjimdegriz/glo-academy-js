@@ -36,14 +36,18 @@
         }
 
         interval = setInterval(() => {
+          if (count >= total) {
+            count = total;
+          }
+
           calcTotal.textContent = count;
 
           if (count >= total) {
             clearInterval(interval);
           } else {
-            count++;
+            count+=squareValue*2;
           }
-        }, 2);
+        }, 1);
 
       };
 

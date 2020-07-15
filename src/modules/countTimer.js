@@ -24,6 +24,7 @@ const countTimer = (deadline) => {
     timerSeconds.textContent = result.seconds;
   };
 
+  updateClock();
   setInterval(updateClock, 1000);
 
   };
